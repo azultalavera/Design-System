@@ -7,7 +7,8 @@ import {
   Send, NavigateNext, NavigateBefore, Save, 
   DeleteForever, Backspace, Search,
   DeleteOutline, AttachFile, Add,
-  Checklist, RuleFolder, CreateNewFolder
+  Checklist, RuleFolder, CreateNewFolder,
+  GroupAdd, Construction, PersonAddAlt1
 } from '@mui/icons-material';
 
 const ButtonSection = ({ title, description, children }) => (
@@ -24,9 +25,10 @@ const ButtonSection = ({ title, description, children }) => (
 
 const DemoButton = ({ label, ...props }) => (
   <Grid item xs={12} sm={6} md={3} className="flex flex-col items-center">
-    <Box className="transition-transform active:scale-95">
+    <Box className="transition-transform active:scale-95 w-full">
       <Button 
         {...props} 
+        fullWidth
         className="clic-salud-preview"
         sx={{ 
           borderRadius: '4px', 
@@ -64,17 +66,18 @@ export default function Botones() {
         <h1 className="text-5xl font-black text-zinc-900 tracking-tighter mb-4">Botones de Acción</h1>
       </header>
 
+
+
       <ButtonSection 
         title="Botones sin Iconos" 
         description="Acciones directas que no requieren apoyo visual."
       >
         <Grid container spacing={4}>
-          <DemoButton variant="contained" label="Entendido" sx={{ bgcolor: '#29b6f6', '&:hover': { bgcolor: '#0288d1' } }} />
+          <DemoButton variant="contained" label="AGREGAR" sx={{ bgcolor: '#29b6f6', '&:hover': { bgcolor: '#0288d1' } }} />
           <DemoButton variant="outlined" color="primary" label="Cancelar" />
         </Grid>
       </ButtonSection>
 
-      {/* --- SECCIÓN 1: AVANCE --- */}
       <ButtonSection 
         title="BOTONES CONTAINED" 
         description="Botones principales para el progreso del usuario en el sistema."
@@ -96,7 +99,6 @@ export default function Botones() {
         </div>
       </ButtonSection>
 
-      {/* --- SECCIÓN 2: PERMANENCIA --- */}
       <ButtonSection 
         title="BOTONES OUTLINED" 
         description="Botones secundarios para navegación y guardado de datos."
@@ -119,14 +121,23 @@ export default function Botones() {
         </div>
       </ButtonSection>
 
-      {/* --- SECCIÓN 3: SIN ICONOS --- */}
-      
+            {/* --- NUEVA SECCIÓN: ACCIONES DE FORMULARIO --- */}
+      <ButtonSection 
+        title="Acciones de Formulario" 
+        description="Botones utilizados para agregar nuevas entidades o registros dentro de una carga de datos."
+      >
+        <Grid container spacing={4}>
+          <DemoButton variant="contained" label="AGREGAR EQUIPO" sx={{ bgcolor: '#29b6f6', '&:hover': { bgcolor: '#0288d1' } }} />
+          <DemoButton variant="contained" label="AGREGAR JEFE DE SERVICIO" sx={{ bgcolor: '#29b6f6', '&:hover': { bgcolor: '#0288d1' } }} />
+          <DemoButton variant="contained" label="AGREGAR PERSONAL" sx={{ bgcolor: '#29b6f6', '&:hover': { bgcolor: '#0288d1' } }} />
 
-      {/* --- SECCIÓN 4: SPEED DIAL --- */}
+        </Grid>
+      </ButtonSection>
+
       <h2 className="text-xs font-bold uppercase tracking-widest text-zinc-400 mb-6 font-geist">
         Acciones Flotantes (Speed Dial)
       </h2>
-      <div className="bg-[#f8fafc] rounded-2xl p-6 flex justify-center items-center border border-dashed border-zinc-200 relative min-h-30">
+      <div className="bg-[#f8fafc] rounded-2xl p-6 flex justify-center items-center border border-dashed border-zinc-200 relative min-h-[120px]">
         <SpeedDial
           ariaLabel="SpeedDial ClicSalud"
           sx={{ 

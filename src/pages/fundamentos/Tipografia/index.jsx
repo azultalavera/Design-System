@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Snackbar, Alert, Tooltip } from "@mui/material";
 import { Copy, CheckCircle2, AlertCircle } from "lucide-react";
+import Typography from "@mui/material/Typography";
 
 const TypographyCard = ({
   title,
@@ -31,6 +32,14 @@ color: ${color};`;
       <div className="p-6 border-b border-zinc-50 flex justify-between items-center bg-zinc-50/30">
         <div className="font-geist">
           <h3 className="text-sm font-bold text-zinc-900">{title}</h3>
+          <Typography
+            variant="h5"
+            fontWeight="bold"
+            color="#25ADE6"
+            width="35%"
+          >
+            Equipamientos
+          </Typography>
           <p className="text-[11px] text-zinc-400 font-mono">{variant}</p>
         </div>
         <button

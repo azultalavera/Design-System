@@ -16,6 +16,13 @@ import Tipografia from "./pages/fundamentos/Tipografia";
 import Espaciado from "./pages/fundamentos/Espaciado";
 import Elevacion from "./pages/fundamentos/Elevacion";
 import LogosIdentidad from './pages/fundamentos/Logos';
+import Cards from './pages/fundamentos/Cards';
+
+// Estructura
+import SidebarC from "./pages/estructura/SidebarC";
+import { TopNavbar } from './pages/estructura/Navbar/TopNavbar';
+import { SubNavbar } from './pages/estructura/Navbar/SubNavbar';
+import Footer from "./pages/estructura/Footer";
 
 // Componentes UI
 import Botones from "./pages/componentesUI/Botones";
@@ -64,6 +71,13 @@ function App() {
                 <Route path="/fundamentos/espaciado" element={<Espaciado />} />
                 <Route path="/fundamentos/elevacion" element={<Elevacion />} />
                 <Route path="/fundamentos/logos" element={<LogosIdentidad />} />
+                <Route path="/fundamentos/cards" element={<Cards />} />
+
+                {/* RUTAS: ESTRUCTURA */}
+                <Route path="/estructura/sidebarC" element={<SidebarC />} />
+                <Route path="/estructura/topnavbar" element={<TopNavbar />} />
+                <Route path="/estructura/subnavbar" element={<SubNavbar />} />
+                <Route path="/estructura/footer" element={<Footer />} />
 
                 {/* RUTAS: COMPONENTES UI */}
                 <Route path="/componentes/botones" element={<Botones />} />
