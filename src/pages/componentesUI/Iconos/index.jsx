@@ -9,7 +9,7 @@ import {
   Apartment, FamilyRestroom, Business, Vaccines, WheelchairPickup, MedicalServices, FaceRetouchingNatural, Biotech,
   // Iconos de Navegación
   Home, MoveToInbox, Add, RuleFolder, CreateNewFolder, Checklist,
-  ContentCopy
+  ContentCopy, Gavel, Assignment, Description
 } from '@mui/icons-material';
 
 // --- COMPONENTES DE ESTRUCTURA ---
@@ -82,6 +82,31 @@ export default function Iconos() {
         <p className="text-zinc-500 text-lg max-w-2xl font-light">
           Catálogo de glifos normalizados para el sistema. Haz clic en cualquier celda para copiar su importación.
         </p>
+
+        {/* Regla de Color */}
+        <div className="mt-10 p-6 bg-zinc-50 rounded-2xl border border-zinc-100 flex flex-col md:flex-row gap-8 items-center font-geist">
+          <div className="flex-1">
+            <h3 className="text-sm font-black text-zinc-900 uppercase tracking-widest mb-2">Color Iconografía</h3>
+            <p className="text-xs text-zinc-500 leading-relaxed">
+              Los iconos deberán estar de color siempre que sean <strong>clickeables</strong> (habilitados) 
+              y encontrarse de <strong>color gris</strong> si no es posible interactuar con ellos (deshabilitado).
+            </p>
+          </div>
+          <div className="flex gap-10 bg-white p-4 rounded-xl border border-zinc-200">
+            <div className="text-center">
+              <div className="p-3 bg-blue-50 rounded-lg text-blue-500 mb-2">
+                <Check />
+              </div>
+              <p className="text-[9px] font-bold text-blue-600 uppercase tracking-tighter">Habilitado</p>
+            </div>
+            <div className="text-center opacity-40">
+              <div className="p-3 bg-zinc-100 rounded-lg text-zinc-500 mb-2">
+                <Check />
+              </div>
+              <p className="text-[9px] font-bold text-zinc-500 uppercase tracking-tighter">Deshabilitado</p>
+            </div>
+          </div>
+        </div>
       </header>
 
       {/* --- SECCIÓN 1: INTERFAZ --- */}
@@ -130,6 +155,12 @@ export default function Iconos() {
         <IconCard Icon={RuleFolder} name="RuleFolder" label="Renovación" onCopy={handleCopy} />
         <IconCard Icon={CreateNewFolder} name="CreateNewFolder" label="Habilitación" onCopy={handleCopy} />
         <IconCard Icon={Checklist} name="Checklist" label="Adecuación" onCopy={handleCopy} />
+      </IconGroup>
+
+      <IconGroup title="Documentación Legal">
+        <IconCard Icon={Gavel} name="Gavel" label="Resolución / Decisión" onCopy={handleCopy} />
+        <IconCard Icon={Assignment} name="Assignment" label="Documento Oficial" onCopy={handleCopy} />
+        <IconCard Icon={Description} name="Description" label="Archivo Resolución" onCopy={handleCopy} />
       </IconGroup>
 
       <Snackbar 

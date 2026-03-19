@@ -1,12 +1,12 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { Typography, Grid, Box } from '@mui/material';
-import { 
-  Layers, 
-  Component, 
-  LayoutTemplate, 
-  Briefcase, 
-  ArrowRight, 
+import {
+  Layers,
+  Component,
+  LayoutTemplate,
+  Briefcase,
+  ArrowRight,
   ShieldCheck,
   ChevronRight
 } from 'lucide-react';
@@ -42,10 +42,10 @@ const CATEGORIES = [
   }
 ];
 
-export  function Home() {
+export function Home() {
   return (
     <div className="max-w-6xl mx-auto text-left font-geist pb-32 px-4 animate-in fade-in slide-in-from-bottom-4 duration-1000">
-      
+
       {/* --- HEADER SECCIÓN --- */}
       <header className="mb-20 pt-16">
         <div className="flex items-center gap-3 mb-8">
@@ -54,17 +54,17 @@ export  function Home() {
           </div>
           <div className="h-px w-8 bg-zinc-200"></div>
           <div className="flex items-center gap-2 text-zinc-400 text-[10px] font-bold uppercase tracking-widest">
-            <ShieldCheck size={14} className="text-blue-400" /> CIDS - Ministerio de Salud
+            <ShieldCheck size={14} className="text-blue-400" /> CIDS
           </div>
         </div>
 
         <h1 className="text-8xl font-black text-zinc-900 tracking-tighter mb-8 leading-[0.85]">
-          Design <br />
-          <span className="text-blue-600">System</span>
+          Sistema de<br />
+          <span className="text-blue-600">Diseño</span>
         </h1>
 
         <p className="text-zinc-500 text-xl max-w-2xl font-light leading-relaxed">
-          Guía oficial de estilos, componentes y patrones para la plataforma <strong>ClicSalud</strong>. 
+          Guía oficial de estilos, componentes y patrones para el sistema <strong>ClicSalud</strong>.
           Un lenguaje visual unificado para escalar la experiencia del Agente y el Efector.
         </p>
       </header>
@@ -75,24 +75,24 @@ export  function Home() {
           <Grid item xs={12} md={6} key={i}>
             <Link to={cat.path} className="group block h-full">
               <div className="relative p-10 bg-white border border-zinc-100 rounded-[40px] h-full flex flex-col transition-all duration-500 hover:shadow-2xl hover:shadow-blue-500/10 hover:-translate-y-2 hover:border-blue-200 overflow-hidden">
-                
+
                 {/* Decoración de fondo sutil */}
                 <div className="absolute -right-4 -top-4 w-32 h-32 bg-zinc-50 rounded-full scale-0 group-hover:scale-100 transition-transform duration-700 opacity-50" />
 
-                <div 
+                <div
                   className="w-16 h-16 rounded-2xl flex items-center justify-center mb-10 text-white transition-all duration-500 group-hover:rotate-10 group-hover:scale-110 shadow-lg"
-                  style={{ 
+                  style={{
                     backgroundColor: cat.color,
-                    boxShadow: `0 10px 20px -5px ${cat.color}44` 
+                    boxShadow: `0 10px 20px -5px ${cat.color}44`
                   }}
                 >
                   <cat.icon size={32} strokeWidth={1.5} />
                 </div>
-                
+
                 <h3 className="text-3xl font-black text-zinc-900 mb-4 font-geist uppercase tracking-tighter italic group-hover:text-blue-600 transition-colors">
                   {cat.title}
                 </h3>
-                
+
                 <p className="text-zinc-500 text-sm leading-relaxed mb-10 grow font-geist pr-4">
                   {cat.desc}
                 </p>
@@ -116,7 +116,7 @@ export  function Home() {
             Centro de Investigación y Desarrollo de Sistemas
           </p>
         </div>
-        
+
         <div className="flex items-center gap-10">
           <div className="flex flex-col items-end">
             <span className="text-[9px] font-black text-zinc-300 uppercase tracking-widest mb-1">Tecnologías</span>

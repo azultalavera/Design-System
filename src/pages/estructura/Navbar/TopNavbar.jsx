@@ -9,7 +9,7 @@ import LogoClicSalud from '../../../assets/logos/cuadrado-fondoblanco.png';
 export const TopNavbar = ({ onMenuClick }) => {
   return (
     <div className="max-w-7xl mx-auto text-left font-geist pb-20 animate-in fade-in duration-700">
-      
+
       {/* 1. COMPONENTE EN VIVO (PREVIEW) */}
       <section className="mb-12">
         <h3 className="text-[10px] font-black text-zinc-400 uppercase tracking-[0.3em] mb-6 italic">Componente en Vivo</h3>
@@ -26,7 +26,7 @@ export const TopNavbar = ({ onMenuClick }) => {
           </div>
           <div className="flex items-center gap-6">
             <div className="flex items-center gap-3">
-              <span className="text-[12px] font-bold uppercase tracking-wide font-geist">Catalina Jorge</span>
+              <span className="text-[12px] font-bold uppercase tracking-wide font-geist">USUARIO</span>
               <AccountCircle sx={{ fontSize: 26, opacity: 0.9 }} />
             </div>
             <IconButton size="small" sx={{ color: 'white' }}>
@@ -40,9 +40,9 @@ export const TopNavbar = ({ onMenuClick }) => {
 
       {/* 2. ESPECIFICACIONES TÉCNICAS */}
       <section className="grid grid-cols-1 md:grid-cols-2 gap-8">
-        
+
         {/* COLORES Y DEGRADADO */}
-        <div className="p-8 bg-zinc-900 rounded-3xl text-white">
+        <div className="p-8 bg-white border border-zinc-200 rounded-3xl shadow-sm">
           <h4 className="text-blue-400 text-[11px] font-black uppercase tracking-widest mb-6 italic">Definición de Color</h4>
           <div className="space-y-6">
             <div>

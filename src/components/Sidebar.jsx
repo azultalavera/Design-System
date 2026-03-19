@@ -4,9 +4,10 @@ import {
   Layers, Component, LayoutTemplate, Briefcase, Palette, Type,
   HomeIcon, Maximize, Layers3, Square, LucideHome, TextCursorInput,
   Table2, UserCircle, Tag, Maximize2, Smile, PanelTop,
-  FormInput, ListChecks, FileBarChart, Activity,
+  FormInput, ListChecks, FileBarChart, Activity, Bell, HelpCircle, ChevronDown,
+  Search, PanelLeftClose, PanelLeftOpen, Menu
 } from "lucide-react";
-import { Tooltip, Zoom } from "@mui/material";
+import { Tooltip, Zoom, InputBase } from "@mui/material";
 
 const menuGroups = [
   {
@@ -16,18 +17,17 @@ const menuGroups = [
     children: [
       { name: "Colores", path: "/fundamentos/colores", icon: Palette },
       { name: "Tipografía", path: "/fundamentos/tipografia", icon: Type },
-      { name: "Espaciado", path: "/fundamentos/espaciado", icon: Maximize },
-      { name: "Elevación", path: "/fundamentos/elevacion", icon: Layers3 },
-      { name: "Logos", path: "/fundamentos/logos", icon: HomeIcon },
-      { name: "Cards", path: "/fundamentos/cards", icon: Component },
+
+      { name: "Logotipos", path: "/fundamentos/logotipos", icon: LucideHome },
+      { name: "Cards", path: "/fundamentos/cards", icon: Square },
     ],
   },
   {
     name: "Estructura",
-    icon: PanelTop,
+    icon: Layers3,
     path: "/estructura",
     children: [
-      { name: "SidebarC", path: "/estructura/sidebarC", icon: LayoutTemplate },
+      { name: "Sidebar", path: "/estructura/sidebarC", icon: Square },
       { name: "TopNavbar", path: "/estructura/topnavbar", icon: Square },
       { name: "SubNavbar", path: "/estructura/subnavbar", icon: Square },
       { name: "Footer", path: "/estructura/footer", icon: Activity },
@@ -39,13 +39,17 @@ const menuGroups = [
     path: "/componentes",
     children: [
       { name: "Botones", path: "/componentes/botones", icon: Square },
+      { name: "Acordiones", path: "/componentes/acordion", icon: ChevronDown },
       { name: "Inputs", path: "/componentes/inputs", icon: TextCursorInput },
       { name: "Iconos", path: "/componentes/iconos", icon: Smile },
       { name: "Tablas", path: "/componentes/tablas", icon: Table2 },
-      { name: "Avatares", path: "/componentes/avatares", icon: UserCircle },
       { name: "Chips", path: "/componentes/chips", icon: Tag },
       { name: "Modales", path: "/componentes/modales", icon: Maximize2 },
       { name: "Selección", path: "/componentes/seleccion", icon: ListChecks },
+      { name: "Avatares", path: "/componentes/avatares", icon: UserCircle },
+      { name: "Tooltips", path: "/componentes/tooltips", icon: HelpCircle },
+      { name: "Alertas", path: "/componentes/alertas", icon: Activity },
+      { name: "Snackbars", path: "/componentes/snackbars", icon: Bell },
     ],
   },
   {
@@ -58,6 +62,8 @@ const menuGroups = [
       { name: "Bandejas", path: "/layout/bandejas", icon: ListChecks },
       { name: "Reportes", path: "/layout/reportes", icon: FileBarChart },
       { name: "Steppers", path: "/layout/steppers", icon: Layers3 },
+      {name: "Contenedores", path: "/layout/contenedores", icon: Maximize },
+      { name: "Certificados", path: "/layout/certificados", icon: Activity },
     ],
   },
   {
@@ -68,62 +74,125 @@ const menuGroups = [
   },
 ];
 
-export const Sidebar = () => {
-  const [isHovered, setIsHovered] = useState(false); // Estado para el mouse
-  const [isPinned, setIsPinned] = useState(false);   // Estado para el click persistente
+export const Sidebar = ({ isExpanded, setIsExpanded }) => {
+  const [searchTerm, setSearchTerm] = useState("");
   const [openGroups, setOpenGroups] = useState({
-    Fundamentos: false,
-    Estructura: false, 
-    "Componentes UI": false,
+    Fundamentos: true,
+    Estructura: false,
+    "Componentes UI": true,
     Patrones: false,
     "Reglas de Negocio": false,
   });
 
   const location = useLocation();
 
-  // La sidebar se expande si el mouse está encima O si está pineada por click
-  const isExpanded = isHovered || isPinned;
-
   const toggleGroup = (groupName) => {
-    setOpenGroups((prev) => ({
-      ...prev,
-      [groupName]: !prev[groupName],
-    }));
+    setOpenGroups((prev) => ({ ...prev, [groupName]: !prev[groupName] }));
   };
+
+  // Toggle all groups at once
+  const areAnyOpen = Object.values(openGroups).some(val => val === true);
+  const toggleAllGroups = () => {
+    const newState = !areAnyOpen;
+    const updated = {};
+    menuGroups.forEach(g => updated[g.name] = newState);
+    setOpenGroups(updated);
+  };
+
+  // Filtrado de grupos y páginas
+  const filteredGroups = menuGroups.map(group => {
+    const filteredChildren = group.children?.filter(child =>
+      child.name.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+    const matchesGroup = group.name.toLowerCase().includes(searchTerm.toLowerCase());
+
+    if (matchesGroup || (filteredChildren && filteredChildren.length > 0)) {
+      return { ...group, children: matchesGroup ? group.children : filteredChildren };
+    }
+    return null;
+  }).filter(Boolean);
 
   return (
     <aside
-      onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={() => setIsHovered(false)}
       className={`fixed inset-y-0 left-0 z-50 bg-[#0a192f] border-r border-white/5 transition-all duration-300 ease-in-out font-geist hidden md:flex flex-col overflow-x-hidden ${isExpanded ? "w-64" : "w-20"}`}
     >
-      {/* Botón Home Circular y Persistente */}
-      <div 
-        onClick={() => setIsPinned(!isPinned)} // Click para dejar persistente
-        className={`h-20 flex items-center px-5 cursor-pointer border-b border-white/5 shrink-0 transition-colors ${isPinned ? 'bg-white/10' : 'hover:bg-white/5'}`}
-      >
-        <Link 
-          to="/" 
-          className="flex items-center w-full"
-          onClick={(e) => e.stopPropagation()} // Evita que el link interfiera con el click del div
+      {/* HEADER SECTION: Menu Toggle + Brand + Collapse All */}
+      <div className="h-20 flex items-center px-5 border-b border-white/5 shrink-0 overflow-hidden">
+        {/* Sidebar Toggle (Menu Icon) */}
+        <button
+          onClick={() => setIsExpanded(!isExpanded)}
+          className={`shrink-0 w-8 h-8 rounded-full flex items-center justify-center transition-all ${isExpanded ? 'bg-transparent text-slate-400 hover:bg-white/10' : 'bg-blue-500 text-white shadow-lg'}`}
         >
-          <div className={`w-10 h-10 rounded-full flex items-center justify-center text-white shadow-lg transition-all duration-500 ${isPinned ? 'animate-pulse' : ''}`}>
-            <LucideHome size={20} strokeWidth={2.5} />
+          <Menu size={18} />
+        </button>
+
+        <div className={`flex items-center justify-between flex-1 ml-4 transition-all duration-300 ${isExpanded ? 'opacity-100' : 'opacity-0 w-0'}`}>
+          <div>
+            <h2 className="text-white font-black text-xs uppercase tracking-tighter leading-none">ClicSalud</h2>
+            <p className="text-[9px] text-blue-400 font-bold uppercase mt-1">Design System</p>
           </div>
-          <div className={`ml-4 overflow-hidden transition-all duration-300 ${isExpanded ? 'opacity-100 w-auto' : 'opacity-0 w-0'}`}>
-            <h2 className="text-white font-black text-sm whitespace-nowrap uppercase tracking-tighter leading-none">ClicSalud</h2>
-            <div className="flex items-center gap-2 mt-1">
-              <p className="text-[9px] text-blue-400 font-bold uppercase tracking-widest">Design System</p>
-              {isPinned && <div className="w-1 h-1 rounded-full bg-blue-400 animate-pulse" />}
-            </div>
+
+          {/* Bulk Toggle Button (Expands/Collapses all children) */}
+          <Tooltip title={areAnyOpen ? "Colapsar Categorías" : "Expandir Categorías"}>
+            <button
+              onClick={(e) => {
+                e.preventDefault();
+                toggleAllGroups();
+              }}
+              className="p-1.5 hover:bg-white/10 rounded-lg text-slate-500 hover:text-white transition-colors ml-2"
+            >
+              {areAnyOpen ? <PanelLeftClose size={16} className="rotate-90" /> : <PanelLeftOpen size={16} className="rotate-90" />}
+            </button>
+          </Tooltip>
+        </div>
+      </div>
+
+      {/* SEARCH BAR SECTION */}
+      <div className={`px-4 py-4 transition-all duration-300 ${isExpanded ? 'opacity-100 h-auto' : 'opacity-0 h-0 overflow-hidden'}`}>
+        <div className="relative group">
+          <div className="absolute inset-y-0 left-3 flex items-center pointer-events-none">
+            <Search className="h-4 w-4 text-slate-500 group-focus-within:text-blue-400 transition-colors" />
           </div>
-        </Link>
+          <InputBase
+            placeholder="Buscar páginas..."
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+            sx={{
+              width: '100%',
+              bgcolor: 'rgba(255,255,255,0.05)',
+              borderRadius: '10px',
+              color: 'white',
+              fontSize: '12px',
+              fontFamily: 'Geist',
+              px: '40px',
+              py: '8px',
+              border: '1px solid rgba(255,255,255,0.05)',
+              '&:hover': { bgcolor: 'rgba(255,255,255,0.08)' },
+              '& .MuiInputBase-input::placeholder': { color: '#64748b', opacity: 1 }
+            }}
+          />
+        </div>
       </div>
 
       {/* Nav Content */}
       <nav className="p-3 space-y-4 flex-1 overflow-y-auto overflow-x-hidden custom-scrollbar">
-        {menuGroups.map((group) => {
-          const isOpen = openGroups[group.name];
+        {/* NEW HOME ITEM */}
+        <div className="mb-2">
+          <Tooltip title={!isExpanded ? "Home" : ""} placement="right" TransitionComponent={Zoom} arrow>
+            <Link
+              to="/"
+              className={`flex items-center p-3 rounded-xl transition-all ${location.pathname === "/" ? "text-blue-400 bg-blue-500/10" : "text-slate-500 hover:text-white hover:bg-white/5"}`}
+            >
+              <LucideHome size={20} className="shrink-0" />
+              <span className={`ml-4 text-[10px] font-black uppercase tracking-widest transition-all duration-300 whitespace-nowrap ${isExpanded ? "opacity-100 w-auto" : "opacity-0 w-0"}`}>
+                Home
+              </span>
+            </Link>
+          </Tooltip>
+        </div>
+
+        {filteredGroups.map((group) => {
+          const isOpen = openGroups[group.name] || searchTerm.length > 0;
           const isActiveGroup = location.pathname.startsWith(group.path);
 
           return (
@@ -131,7 +200,7 @@ export const Sidebar = () => {
               <Tooltip title={!isExpanded ? group.name : ""} placement="right" TransitionComponent={Zoom} arrow>
                 <div
                   onClick={() => toggleGroup(group.name)}
-                  className={`flex items-center p-3 rounded-xl cursor-pointer transition-all ${isActiveGroup ? "text-blue-400 bg-blue-500/5" : "text-slate-500 hover:text-white hover:bg-white/5"}`}
+                  className={`flex items-center p-3 rounded-xl cursor-pointer transition-all ${isActiveGroup ? "text-blue-400 bg-blue-500/5 text-shadow-sm shadow-blue-500/20" : "text-slate-500 hover:text-white hover:bg-white/5"}`}
                 >
                   <group.icon size={20} className="shrink-0" />
                   <span className={`ml-4 text-[10px] font-black uppercase tracking-widest transition-all duration-300 whitespace-nowrap ${isExpanded ? "opacity-100 w-auto" : "opacity-0 w-0"}`}>

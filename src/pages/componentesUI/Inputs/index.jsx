@@ -15,25 +15,29 @@ const robotoStyle = {
 };
 
 // Subtítulos con línea en Gris
-const InputSection = ({ title, code, children, onCopy }) => (
-  <div className="mb-10 animate-in fade-in duration-500">
-    <div className="flex items-center gap-4 mb-4">
-      <h4 className="text-[13px] font-bold text-zinc-400 font-geist whitespace-nowrap">{title}</h4>
+const InputSection = ({ title, code, children }) => (
+  <div className="mb-12 animate-in fade-in duration-500">
+    <div className="flex items-center gap-4 mb-3">
+      <h4 className="text-[11px] font-black text-blue-500 font-geist uppercase tracking-widest italic">{title}</h4>
       <div className="h-px grow bg-zinc-100"></div>
-      <Tooltip title="Copiar Snippet">
-        <button onClick={() => onCopy(code)} className="p-1 hover:bg-zinc-100 rounded transition-all text-zinc-300">
-          <ContentCopy sx={{ fontSize: 14 }} />
-        </button>
-      </Tooltip>
     </div>
-    <div className="max-w-md ml-2">{children}</div>
+    
+    <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-start">
+      <div className="max-w-md">{children}</div>
+      <div className="bg-[#0a192f] p-4 rounded-xl border border-white/5 overflow-hidden">
+        <p className="text-[8px] font-bold text-zinc-500 uppercase tracking-widest mb-2 italic">Código Material UI</p>
+        <pre className="text-[10px] text-blue-300 font-mono leading-relaxed overflow-x-auto whitespace-pre-wrap">
+          {code}
+        </pre>
+      </div>
+    </div>
   </div>
 );
 
 // Títulos de Categoría con línea en Negro
 const CategoryHeader = ({ title }) => (
-  <div className="flex items-center gap-4 mb-10 mt-16 first:mt-0">
-    <h2 className="text-[11px] font-black uppercase tracking-[0.2em] text-zinc-900 font-geist whitespace-nowrap">
+  <div className="flex items-center gap-4 mb-10 mt-20 first:mt-0">
+    <h2 className="text-[12px] font-black uppercase tracking-[0.2em] text-zinc-900 font-geist whitespace-nowrap">
       {title}
     </h2>
     <div className="h-px grow bg-zinc-200"></div>
@@ -41,14 +45,8 @@ const CategoryHeader = ({ title }) => (
 );
 
 export default function Inputs() {
-  const [snackbar, setSnackbar] = useState({ open: false, text: "" });
   const [selectedServices, setSelectedServices] = useState([]);
   const services = ['ANESTESIOLOGÍA', 'RADIOLOGÍA', 'LABORATORIO', 'UTI', 'CARDIOLOGÍA'];
-
-  const handleCopy = (code) => {
-    navigator.clipboard.writeText(code);
-    setSnackbar({ open: true, text: "Snippet copiado" });
-  };
 
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="es">
@@ -63,22 +61,22 @@ export default function Inputs() {
         {/* --- SECCIÓN 1 --- */}
         <CategoryHeader title="Estados de Campos" />
         <div className="space-y-6">
-          <InputSection title="Estado Default" onCopy={handleCopy} code={`<TextField variant="standard" label="Denominación" fullWidth />`}>
+          <InputSection title="Estado Default" code={`<TextField variant="standard" label="Denominación" fullWidth />`}>
             <TextField variant="standard" label="Establecimiento" fullWidth sx={robotoStyle} />
           </InputSection>
 
-          <InputSection title="Estado Error" onCopy={handleCopy} code={`<TextField error variant="standard" label="CUIL" helperText="Requerido" />`}>
+          <InputSection title="Estado Error" code={`<TextField error variant="standard" label="CUIL" helperText="Requerido" />`}>
             <TextField error variant="standard" label="CUIL / CUIT" helperText="Este campo es requerido" fullWidth sx={robotoStyle} />
           </InputSection>
 
-          <InputSection title="Estado Deshabilitado" onCopy={handleCopy} code={`<TextField disabled variant="standard" label="Fecha" value="18/03/2026" />`}>
+          <InputSection title="Estado Deshabilitado" code={`<TextField disabled variant="standard" label="Fecha" value="18/03/2026" />`}>
             <TextField disabled variant="standard" label="Fecha de Cambio" value="18/03/2026" fullWidth sx={robotoStyle} />
           </InputSection>
         </div>
 
         {/* --- SECCIÓN 2 --- */}
         <CategoryHeader title="Fechas" />
-        <InputSection title="Input Fecha (Standard)" onCopy={handleCopy} code={`<DatePicker slotProps={{ textField: { variant: 'standard' } }} />`}>
+        <InputSection title="Input Fecha (Standard)" code={`<DatePicker slotProps={{ textField: { variant: 'standard' } }} />`}>
           <DatePicker 
             label="Fecha últ. mantenimiento"
             format="DD/MM/YYYY"
@@ -89,7 +87,7 @@ export default function Inputs() {
         {/* --- SECCIÓN 3 --- */}
         <CategoryHeader title="Desplegables" />
         <div className="space-y-10">
-          <InputSection title="Selección Simple con Borrado (X)" onCopy={handleCopy} code={`<Autocomplete ... />`}>
+          <InputSection title="Selección Simple con Borrado (X)" code={`<Autocomplete ... />`}>
             <Autocomplete
               options={services}
               renderInput={(params) => (
@@ -98,7 +96,7 @@ export default function Inputs() {
             />
           </InputSection>
 
-          <InputSection title="Multi-selección (Texto Plano)" onCopy={handleCopy} code={`<Autocomplete multiple ... />`}>
+          <InputSection title="Multi-selección (Texto Plano)" code={`<Autocomplete multiple ... />`}>
             <Autocomplete
               multiple
               options={services}
@@ -135,17 +133,6 @@ export default function Inputs() {
             Para los selectores que requieren limpieza (X), se debe utilizar Autocomplete. El uso de Roboto es obligatorio para el texto de entrada.
           </p>
         </div>
-
-        <Snackbar 
-          open={snackbar.open} 
-          autoHideDuration={2000} 
-          onClose={() => setSnackbar({ ...snackbar, open: false })}
-          anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
-        >
-          <Alert severity="info" variant="filled" sx={{ borderRadius: '8px', fontSize: '12px', fontFamily: 'Geist' }}>
-            {snackbar.text}
-          </Alert>
-        </Snackbar>
       </div>
     </LocalizationProvider>
   );

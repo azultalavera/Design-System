@@ -1,7 +1,15 @@
 import React, { useState } from "react";
 import { Snackbar, Alert, Tooltip } from "@mui/material";
-import { Copy, CheckCircle2, AlertCircle } from "lucide-react";
+import { Copy, CheckCircle2, AlertCircle, Maximize, HelpCircle } from "lucide-react";
 import Typography from "@mui/material/Typography";
+
+const hexToRgb = (hex) => {
+  if (hex.startsWith('rgb')) return hex;
+  const r = parseInt(hex.slice(1, 3), 16);
+  const g = parseInt(hex.slice(3, 5), 16);
+  const b = parseInt(hex.slice(5, 7), 16);
+  return `rgb(${r}, ${g}, ${b})`;
+};
 
 const TypographyCard = ({
   title,
@@ -13,47 +21,34 @@ const TypographyCard = ({
   usage,
   exampleText,
 }) => {
-  const [copied, setCopied] = useState(false);
-
-  const cssCode = `font-family: 'Roboto', sans-serif;
-font-size: ${size};
-font-weight: ${weight};
-line-height: ${lineHeight};
-color: ${color};`;
-
-  const copyToClipboard = () => {
-    navigator.clipboard.writeText(cssCode);
-    setCopied(true);
-    setTimeout(() => setCopied(false), 2000);
-  };
+  const rgbColor = hexToRgb(color);
+  const muiCode = `<Typography 
+  variant="${variant}"
+  sx={{ 
+    fontSize: '${size}', 
+    fontWeight: ${weight}, 
+    lineHeight: ${lineHeight},
+    color: '${rgbColor}',
+    fontFamily: 'Roboto' 
+  }}
+>
+  ${exampleText}
+</Typography>`;
 
   return (
     <div className="group border border-zinc-100 rounded-2xl bg-white overflow-hidden hover:shadow-xl transition-all duration-300 mb-8">
       <div className="p-6 border-b border-zinc-50 flex justify-between items-center bg-zinc-50/30">
         <div className="font-geist">
-          <h3 className="text-sm font-bold text-zinc-900">{title}</h3>
-          <Typography
-            variant="h5"
-            fontWeight="bold"
-            color="#25ADE6"
-            width="35%"
-          >
-            Equipamientos
-          </Typography>
-          <p className="text-[11px] text-zinc-400 font-mono">{variant}</p>
+          <h3 className="text-[11px] font-black uppercase tracking-widest text-[#25ADE6] mb-1 italic">
+            Especificación Material UI
+          </h3>
+          <p className="text-[10px] text-zinc-400 font-mono italic">MUI Variant: {variant}</p>
         </div>
-        <button
-          onClick={copyToClipboard}
-          className="flex items-center gap-2 px-3 py-1.5 text-[11px] font-bold bg-white border border-zinc-200 rounded-lg hover:bg-zinc-900 hover:text-white transition-all shadow-sm"
-        >
-          {copied ? <CheckCircle2 size={12} /> : <Copy size={12} />}
-          {copied ? "Copiado" : "Copiar CSS"}
-        </button>
       </div>
 
       <div className="p-8">
         {/* Renderizado del Producto ClicSalud */}
-        <div className="clic-salud-preview mb-8 p-6 bg-zinc-50/50 rounded-xl border border-dashed border-zinc-200">
+        <div className="clic-salud-preview mb-8 p-6 bg-white rounded-xl border border-zinc-100 shadow-sm">
           <div
             style={{
               fontSize: size,
@@ -66,33 +61,33 @@ color: ${color};`;
           </div>
         </div>
 
-        {/* Especificaciones Técnicas (Geist) */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 font-geist">
+        {/* Snippet de Material UI (Sustituye al antiguo Copiar CSS) */}
+        <div className="mb-8">
+          <p className="text-[9px] font-bold text-zinc-400 uppercase tracking-widest mb-3 italic">Implementación MUI</p>
+          <div className="bg-[#0a192f] p-4 rounded-xl border border-white/5">
+            <pre className="text-[10px] text-blue-300 font-mono leading-relaxed overflow-x-auto">
+              {muiCode}
+            </pre>
+          </div>
+        </div>
+
+        {/* Especificaciones Técnicas (Geist) - Atributos atómicos */}
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 font-geist border-t border-zinc-50 pt-6">
           <div className="space-y-1">
-            <p className="text-[10px] uppercase tracking-wider text-zinc-400 font-bold">
-              Tamaño
-            </p>
+            <p className="text-[10px] uppercase tracking-wider text-zinc-400 font-bold">Tamaño</p>
             <p className="text-sm font-medium text-zinc-700">{size}</p>
           </div>
           <div className="space-y-1">
-            <p className="text-[10px] uppercase tracking-wider text-zinc-400 font-bold">
-              Peso
-            </p>
-            <p className="text-sm font-medium text-zinc-700">
-              {weight === 700 ? "Bold" : "Regular"}
-            </p>
+            <p className="text-[10px] uppercase tracking-wider text-zinc-400 font-bold">Peso</p>
+            <p className="text-sm font-medium text-zinc-700">{weight === 700 ? "Bold" : "Regular"}</p>
           </div>
           <div className="space-y-1">
-            <p className="text-[10px] uppercase tracking-wider text-zinc-400 font-bold">
-              Line Height
-            </p>
+            <p className="text-[10px] uppercase tracking-wider text-zinc-400 font-bold">L-Height</p>
             <p className="text-sm font-medium text-zinc-700">{lineHeight}</p>
           </div>
           <div className="space-y-1">
-            <p className="text-[10px] uppercase tracking-wider text-zinc-400 font-bold">
-              Uso
-            </p>
-            <p className="text-sm font-medium text-zinc-700">{usage}</p>
+            <p className="text-[10px] uppercase tracking-wider text-zinc-400 font-bold">Uso</p>
+            <p className="text-sm font-medium text-zinc-700 text-truncate">{usage}</p>
           </div>
         </div>
       </div>
@@ -150,6 +145,106 @@ export default function Tipografia() {
           usage="Párrafos, tablas y formularios."
           exampleText="El certificado adjunto se encuentra en proceso de validación por el área correspondiente."
         />
+      </section>
+
+      {/* Espaciado y Márgenes */}
+      <section className="mt-20 p-10 bg-zinc-50 rounded-3xl border border-zinc-100 font-geist">
+        <div className="flex items-center gap-3 mb-8">
+          <div className="p-2 bg-blue-100 rounded-lg text-blue-600">
+            <Maximize size={24} />
+          </div>
+          <div>
+            <h2 className="text-2xl font-bold tracking-tight text-zinc-900">
+              Espaciado y márgenes
+            </h2>
+            <p className="text-zinc-500 text-sm">
+              Se definen las siguientes reglas de espaciado para que el diseño
+              mantenga coherencia:
+            </p>
+          </div>
+        </div>
+
+        <div className="bg-white p-6 rounded-2xl border border-zinc-200 shadow-sm">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-4">
+              <div className="w-12 h-12 bg-blue-50 rounded-lg flex items-center justify-center border border-blue-100">
+                <span className="text-blue-600 font-bold text-lg">2</span>
+              </div>
+              <div>
+                <p className="font-bold text-zinc-900">Spacing {"{2}"}</p>
+                <p className="text-sm text-zinc-500">
+                  Aplicado en todo el sistema a excepción de los modales
+                </p>
+              </div>
+            </div>
+            <div className="px-4 py-1.5 bg-zinc-100 rounded-full text-[10px] font-bold text-zinc-400 uppercase tracking-widest">
+              Standard
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Mensajes de ayuda al usuario */}
+      <section className="mt-20 p-10 bg-white rounded-3xl border border-zinc-200 font-geist">
+        <div className="flex items-center gap-3 mb-8">
+          <div className="p-2 bg-zinc-100 rounded-lg text-zinc-500">
+            <HelpCircle size={24} />
+          </div>
+          <div>
+            <h2 className="text-2xl font-bold tracking-tight text-zinc-900">
+              Mensajes de ayuda al usuario
+            </h2>
+            <p className="text-zinc-500 text-sm">
+              Normativa para el texto de apoyo en secciones técnicas del sistema.
+            </p>
+          </div>
+        </div>
+
+        <div className="space-y-8">
+          <div className="p-6 bg-zinc-50 rounded-2xl border border-zinc-100 italic">
+            <p className="text-xs text-zinc-400 mb-2 font-bold uppercase tracking-widest">Regla General:</p>
+            <p className="text-sm text-zinc-500 leading-relaxed">
+              Todos los mensajes que sean de ayuda al usuario deberán ser de <strong>color gris</strong>, 
+              sólo las advertencias y errores poseerán un color distintivo. Esta regla aplica a:
+            </p>
+            <div className="flex flex-wrap gap-2 mt-4">
+              {['Documentación adjunta', 'Arquitectura', 'Director Técnico', 'Servicios', 'RRHH', 'Jefe de Servicio', 'Equipamientos'].map(tag => (
+                <span key={tag} className="px-3 py-1 bg-white border border-zinc-200 rounded-full text-[10px] text-zinc-400 font-bold uppercase tracking-tighter">
+                  {tag}
+                </span>
+              ))}
+            </div>
+          </div>
+
+          <div className="grid md:grid-cols-2 gap-6">
+            <div className="p-6 border border-zinc-100 rounded-2xl shadow-sm">
+              <p className="text-[10px] font-black text-red-500 uppercase tracking-widest mb-4">Caso: Falta de Documentos</p>
+              <div className="space-y-4">
+                <div className="p-3 bg-red-50 border border-red-100 rounded-lg">
+                  <p className="text-[12px] text-red-600 font-medium">
+                    "Es necesario completar todos los campos obligatorios incluyendo la documentación indicada"
+                  </p>
+                </div>
+                <div className="flex flex-col gap-1 italic">
+                  <span className="text-[11px] text-zinc-400 font-bold">Campo de documento:</span>
+                  <span className="text-[12px] text-red-500">
+                    "Faltan cargar documentos"
+                  </span>
+                </div>
+              </div>
+            </div>
+
+            <div className="p-6 border border-zinc-100 rounded-2xl shadow-sm bg-zinc-50/30">
+              <p className="text-[10px] font-black text-zinc-400 uppercase tracking-widest mb-4">Ejemplo Visual de Ayuda (Gris)</p>
+              <div className="bg-white p-4 rounded-xl border border-zinc-100">
+                 <p className="text-[13px] font-bold text-zinc-800">Plano completo de arquitectura (Obligatorio)</p>
+                 <p className="text-[11px] text-zinc-400 mt-2 leading-relaxed italic">
+                   Las extensiones soportadas son .pdf .rar .zip (hasta 5MB). Máximo 10 documentos
+                 </p>
+              </div>
+            </div>
+          </div>
+        </div>
       </section>
 
       {/* Reglas de Escritura */}

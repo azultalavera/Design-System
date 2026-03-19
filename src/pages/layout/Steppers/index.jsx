@@ -39,17 +39,18 @@ const ColorlibStepIconRoot = styled("div")(({ ownerState }) => ({
   alignItems: "center",
   transition: "all 0.4s ease",
   ...(ownerState.active && {
-    backgroundImage: "linear-gradient(90deg, rgba(0,81,156,1) 0%, rgba(89,172,255,1) 100%)",
-    boxShadow: "0 10px 10px 0 rgba(0,0,0,.25)",
-    width: 70,
-    height: 70,
-    marginTop: "-10px",
+    backgroundImage: "linear-gradient(135deg, #00B4EC 0%, #00519C 100%)",
+    boxShadow: "0 10px 20px 0 rgba(0,81,156,0.3)",
+    width: 66,
+    height: 66,
+    marginTop: "-8px",
   }),
   ...(ownerState.completed && {
-    backgroundImage: "linear-gradient(90deg, rgba(0,81,156,1) 0%, rgba(89,172,255,1) 100%)",
+    backgroundImage: "linear-gradient(135deg, #00B4EC 0%, #00519C 100%)",
   }),
   ...(ownerState.error && {
-    backgroundImage: "linear-gradient(90deg, rgba(230,131,22,1) 0%, rgba(255,192,126,1) 100%)",
+    backgroundImage: "linear-gradient(135deg, #F59E0B 0%, #D97706 100%)",
+    boxShadow: "0 10px 20px 0 rgba(217,119,6,0.2)",
   }),
 }));
 
@@ -62,7 +63,7 @@ function ColorlibStepIcon(props) {
   const IconComponent = iconComponents[String(icon)];
   return (
     <ColorlibStepIconRoot ownerState={{ completed, active, error }}>
-      <IconComponent sx={{ fontSize: active ? "2rem" : "1.5rem" }} />
+      <IconComponent sx={{ fontSize: active ? "1.8rem" : "1.3rem" }} />
     </ColorlibStepIconRoot>
   );
 }
@@ -123,58 +124,70 @@ export default function StepperFinal() {
         <h3 className="text-[11px] font-black uppercase tracking-[0.2em] text-zinc-400 font-geist mb-6">Estados de Auditoría</h3>
         <Grid container spacing={3}>
           <Grid item xs={12} md={4}>
-            <div className="p-8 bg-blue-50 border border-blue-100 rounded-2xl h-full flex flex-col justify-center">
+            <div className="p-8 bg-blue-50/30 border border-blue-100 rounded-2xl h-full flex flex-col justify-center">
               <div className="flex items-center gap-3 mb-4">
-                <div className="w-3 h-3 rounded-full bg-blue-600" />
-                <h4 className="text-[11px] font-black uppercase text-blue-900 tracking-widest">Azul - Activo o completo</h4>
+                <div className="w-4 h-4 rounded-full bg-gradient-to-br from-[#00B4EC] to-[#00519C]" />
+                <h4 className="text-[11px] font-black uppercase text-blue-900 tracking-widest">Azul (Degradado) - Completo</h4>
               </div>
-              <p className="text-xs text-blue-700 leading-relaxed italic">Indica que la sección ha sido validada o es la etapa en la que el usuario se encuentra operando actualmente.</p>
+              <p className="text-xs text-blue-700 leading-relaxed italic">Indica que la sección ha sido validada o es la etapa en la que el usuario opera actualmente.</p>
             </div>
           </Grid>
           <Grid item xs={12} md={4}>
-            <div className="p-8 bg-orange-50 border border-orange-100 rounded-2xl h-full flex flex-col justify-center">
+            <div className="p-8 bg-orange-50/30 border border-orange-100 rounded-2xl h-full flex flex-col justify-center">
               <div className="flex items-center gap-3 mb-4">
-                <div className="w-3 h-3 rounded-full bg-orange-500" />
-                <h4 className="text-[11px] font-black uppercase text-orange-900 tracking-widest">Naranja - Modificado</h4>
+                <div className="w-4 h-4 rounded-full bg-gradient-to-br from-[#F59E0B] to-[#D97706]" />
+                <h4 className="text-[11px] font-black uppercase text-orange-900 tracking-widest">Naranja (Degradado) - Modificado</h4>
               </div>
-              <p className="text-xs text-orange-700 leading-relaxed italic">Específico para Renovaciones y Modificaciones. Indica que se detectaron cambios que requieren nueva auditoría.</p>
+              <p className="text-xs text-orange-700 leading-relaxed italic">Específico para Renovaciones. Indica que se detectaron cambios que requieren nueva auditoría.</p>
             </div>
           </Grid>
           <Grid item xs={12} md={4}>
             <div className="p-8 bg-zinc-50 border border-zinc-100 rounded-2xl h-full flex flex-col justify-center">
               <div className="flex items-center gap-3 mb-4">
-                <div className="w-3 h-3 rounded-full bg-zinc-300" />
+                <div className="w-4 h-4 rounded-full bg-zinc-300" />
                 <h4 className="text-[11px] font-black uppercase text-zinc-500 tracking-widest">Gris - Pendiente</h4>
               </div>
-              <p className="text-xs text-zinc-500 leading-relaxed italic">Secciones futuras que aún no han sido habilitadas para la carga de datos en el flujo secuencial del trámite.</p>
+              <p className="text-xs text-zinc-500 leading-relaxed italic">Secciones futuras que aún no han sido habilitadas para la carga de datos.</p>
             </div>
           </Grid>
         </Grid>
       </div>
 
-      {/* SECCIÓN 2: JERARQUÍA VISUAL (2 CARDS HORIZONTALES) */}
-      <div>
-        <h3 className="text-[11px] font-black uppercase tracking-[0.2em] text-zinc-400 font-geist mb-6">Jerarquía Visual</h3>
-        <Grid container spacing={3}>
-          <Grid item xs={12} md={6}>
-            <div className="p-8 bg-white border border-zinc-100 rounded-2xl flex items-center gap-8 shadow-sm">
-              <div className="w-16 h-16 rounded-full bg-blue-600 flex items-center justify-center text-[10px] text-white font-black shadow-lg shadow-blue-500/30">70px</div>
-              <div>
-                <h4 className="text-[11px] font-black uppercase text-zinc-900 mb-1 tracking-widest italic">Tamaño Activo</h4>
-                <p className="text-[11px] text-zinc-400 uppercase tracking-tighter">Escala de enfoque para la etapa actual.</p>
-              </div>
-            </div>
-          </Grid>
-          <Grid item xs={12} md={6}>
-            <div className="p-8 bg-white border border-zinc-100 rounded-2xl flex items-center gap-8 shadow-sm">
-              <div className="w-12 h-12 rounded-full bg-zinc-100 border border-zinc-200 flex items-center justify-center text-[10px] text-zinc-400 font-black">50px</div>
-              <div>
-                <h4 className="text-[11px] font-black uppercase text-zinc-900 mb-1 tracking-widest italic">Tamaño Estándar</h4>
-                <p className="text-[11px] text-zinc-400 uppercase tracking-tighter">Dimensión base para pasos inactivos.</p>
-              </div>
-            </div>
-          </Grid>
-        </Grid>
+      {/* SECCIÓN 3: IMPLEMENTACIÓN TÉCNICA (PARA DESARROLLADORES) */}
+      <div className="mt-24 border-t border-zinc-50 pt-16 mb-20">
+        <div className="flex items-center gap-4 mb-10">
+          <h2 className="text-[12px] font-black uppercase tracking-[0.2em] text-[#00519C] font-geist whitespace-nowrap italic">
+            Implementación Material UI
+          </h2>
+          <div className="h-px grow bg-zinc-100"></div>
+        </div>
+
+        <div className="grid grid-cols-1 gap-8">
+          <div className="bg-[#0a192f] p-8 rounded-3xl border border-white/5 overflow-hidden">
+            <p className="text-[9px] font-bold text-zinc-500 uppercase tracking-widest mb-4 italic">Estilo de Iconos (Gradient definition)</p>
+            <pre className="text-[11px] text-blue-300 font-mono leading-relaxed overflow-x-auto whitespace-pre-wrap">
+{`const ColorlibStepIconRoot = styled("div")(({ ownerState }) => ({
+  // Azul Institucional (RGB)
+  ...(ownerState.active && {
+    backgroundImage: "linear-gradient(135deg, rgb(0, 180, 236) 0%, rgb(0, 81, 156) 100%)",
+    boxShadow: "0 10px 20px 0 rgba(0, 81, 156, 0.3)",
+  }),
+  // Naranja Auditoría (RGB)
+  ...(ownerState.error && {
+    backgroundImage: "linear-gradient(135deg, rgb(245, 158, 11) 0%, rgb(217, 119, 6) 100%)",
+    boxShadow: "0 10px 20px 0 rgba(217, 119, 6, 0.2)",
+  }),
+}));`}
+            </pre>
+          </div>
+        </div>
+        
+        <div className="mt-8 p-6 bg-zinc-50 rounded-2xl border border-zinc-100 italic">
+          <p className="text-[11px] text-zinc-500 leading-relaxed font-geist">
+            <strong className="text-zinc-900 uppercase text-[10px] tracking-wider block mb-1">Nota de Implementación:</strong>
+            El Stepper debe ser fluido y ocupar el ancho total del contenedor. El uso de degradados es obligatorio para diferenciar estados de auditoría (Naranja) de estados de progreso estándar (Azul).
+          </p>
+        </div>
       </div>
     </div>
   );

@@ -13,8 +13,8 @@ import { Home } from "./pages/Home";
 // Fundamentos
 import Colores from "./pages/fundamentos/Colores";
 import Tipografia from "./pages/fundamentos/Tipografia";
-import Espaciado from "./pages/fundamentos/Espaciado";
-import Elevacion from "./pages/fundamentos/Elevacion";
+
+
 import LogosIdentidad from './pages/fundamentos/Logos';
 import Cards from './pages/fundamentos/Cards';
 
@@ -26,6 +26,7 @@ import Footer from "./pages/estructura/Footer";
 
 // Componentes UI
 import Botones from "./pages/componentesUI/Botones";
+import Acordion from "./pages/componentesUI/Acordion";
 import Inputs from "./pages/componentesUI/Inputs";
 import Tablas from "./pages/componentesUI/Tablas";
 import Avatares from "./pages/componentesUI/Avatares";
@@ -33,6 +34,9 @@ import Chips from "./pages/componentesUI/Chips";
 import Modales from "./pages/componentesUI/Modales";
 import Iconos from "./pages/componentesUI/Iconos";
 import Seleccion from "./pages/componentesUI/Seleccion";
+import Snackbars from "./pages/componentesUI/Snackbars";
+import Alertas from "./pages/componentesUI/Alertas";
+import Tooltips from "./pages/componentesUI/Tooltips";
 
 // Layout
 import Cabeceras from "./pages/layout/Cabeceras";
@@ -40,23 +44,30 @@ import Formularios from "./pages/layout/Formularios";
 import Bandejas from "./pages/layout/Bandejas";
 import Reportes from "./pages/layout/Reportes";
 import Steppers from "./pages/layout/Steppers";
+import Contenedores from "./pages/layout/Contenedores";
+import Certificados from "./pages/layout/Certificados";
 
 // Reglas de Negocio
 import Estados from "./pages/reglasNegocio/Estados";
 
 // ... imports
 function App() {
+  const [isSidebarExpanded, setIsSidebarExpanded] = React.useState(true);
+
   return (
     <ThemeProvider theme={theme}>
       <Router>
         <div className="flex min-h-screen bg-white text-left">
-          <Sidebar />
+          <Sidebar isExpanded={isSidebarExpanded} setIsExpanded={setIsSidebarExpanded} />
 
           {/* Main Content: 
-          - md:ml-20 -> Siempre deja espacio para los iconos (80px) en pantallas medianas/grandes.
-          - p-6 a p-16 -> Ajusta el aire según el tamaño.
-        */}
-          <main className="flex-1 transition-all duration-300 md:ml-20">
+            Dynamic margin to push content when sidebar is expanded
+          */}
+          <main 
+            className={`flex-1 transition-all duration-300 ${
+              isSidebarExpanded ? "md:ml-64" : "md:ml-20"
+            }`}
+          >
             <div className="p-6 md:p-12 lg:p-20 max-w-6xl mx-auto font-geist">
               <Routes>
                 {/* Redirección inicial */}
@@ -68,9 +79,9 @@ function App() {
                   path="/fundamentos/tipografia"
                   element={<Tipografia />}
                 />
-                <Route path="/fundamentos/espaciado" element={<Espaciado />} />
-                <Route path="/fundamentos/elevacion" element={<Elevacion />} />
-                <Route path="/fundamentos/logos" element={<LogosIdentidad />} />
+                
+                
+                <Route path="/fundamentos/logotipos" element={<LogosIdentidad />} />
                 <Route path="/fundamentos/cards" element={<Cards />} />
 
                 {/* RUTAS: ESTRUCTURA */}
@@ -81,13 +92,17 @@ function App() {
 
                 {/* RUTAS: COMPONENTES UI */}
                 <Route path="/componentes/botones" element={<Botones />} />
+                <Route path="/componentes/acordion" element={<Acordion />} />
                 <Route path="/componentes/inputs" element={<Inputs />} />
                 <Route path="/componentes/tablas" element={<Tablas />} />
-                <Route path="/componentes/avatares" element={<Avatares />} />
                 <Route path="/componentes/chips" element={<Chips />} />
                 <Route path="/componentes/modales" element={<Modales />} />
                 <Route path="/componentes/iconos" element={<Iconos />} />
                 <Route path="/componentes/seleccion" element={<Seleccion />} />
+                <Route path="/componentes/snackbars" element={<Snackbars />} />
+                <Route path="/componentes/alertas" element={<Alertas />} />
+                <Route path="/componentes/avatares" element={<Avatares />} />
+                <Route path="/componentes/tooltips" element={<Tooltips />} />
 
                 {/* RUTAS: LAYOUT */}
                 <Route path="/layout/cabeceras" element={<Cabeceras />} />
@@ -95,6 +110,8 @@ function App() {
                 <Route path="/layout/bandejas" element={<Bandejas />} />
                 <Route path="/layout/reportes" element={<Reportes />} />
                 <Route path="/layout/steppers" element={<Steppers />} />
+                <Route path="/layout/contenedores" element={<Contenedores />} />
+                <Route path="/layout/certificados" element={<Certificados />} />
 
                 {/* RUTAS: REGLAS DE NEGOCIO */}
                 <Route path="/negocio/estados" element={<Estados />} />
